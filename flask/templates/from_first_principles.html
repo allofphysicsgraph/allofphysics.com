@@ -1,0 +1,99 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<P>
+  <em>Recommendation</em>: Read the
+  <a href="{{ url_for('user_documentation') }}?referrer=design_documentation">user documentation</a>
+  and <a href="{{ url_for('faq') }}?referrer=design_documentation">FAQ</a> first.
+  This page assumes familiarity with the jargon used in the Physics Derivation Graph.
+</P>
+
+<P>
+  This page explains the motivating concepts of the Physics Derivation Graph (PDG).
+
+
+<H2><a name="frequency period from first principles">Derivation of Graph from First Principles</a></H2>
+
+<!-- this content is derived from
+     https://allofphysicsgraph.github.io/proofofconcept/site/how_to_build_the_physics_derivation.html
+-->
+
+<P>
+  A reasonable question is, "Why is the Physics Derivation Graph complicated?"
+  To answer that, let's walk through the process of tracking information used in a derivation.
+</P>
+
+<P>
+  A simple derivation is the transition from the expression \(T = 1/f\) to \(f = 1/T\), the same example used on the <a href="{{ url_for('index') }}">home page</a>.
+  The purpose of this section is to explain how a graph relates to the steps associated with this math.
+
+<P>
+  The steps needed to make the transformation are to multiply both sides by \(f\), then divide both sides by \(T\).
+  There are four steps in this derivation:
+<OL>
+<LI>declare initial expression \(T=1/f\)</LI>
+<LI>multiply both sides of \(T=1/f\) by \(f\) to get \(T*f=1\)</LI>
+<LI>divide both sides of \(T f=1\) by \(T\) to get \(f=1/T\)</LI>
+<LI>declare final expression: \(f=1/T\)</LI>
+</OL>
+  This expansion to atomic steps is not typically documented.
+  This expansion can be tedious for derivations, but it is necessary for validation of steps using a Computer Algebra System.
+  As a recommendation, starting the derivation on paper and then expanding to atomic steps with inference rules is best done on paper.</P>
+
+<P>
+  The next step is to visualize this graph.
+  When building a graph, there are three types of nodes: inference rules, expressions, and feeds.
+  The graph will only have three types of directed edges:
+<UL>
+<LI>from "inference rule" to "expression"</LI>
+<LI>from "expression" to "inference rule"</LI>
+<LI>from "feed" to "inference rule"</LI>
+</UL>
+
+<P>
+  Although there is enough information present to generate a graph, the objective for the Physics Derivation Graph is to support more complex derivations and to link multiple derivations.
+  In the Physics Derivation Graph the inference rule "multiply both sides by" may appear in multiple steps.
+  The graph should not render multiple uses of the same inference rule as the same node.
+  Multiple references to the same expression should be a single node.
+  Therefore, an index which has a scope limited to the local derivation step is needed.
+  This leads to the notion of a unique numeric index local to each inference rule.
+  The local index for the inference rule is a unique identifier within a derivation step.</P>
+</P>
+
+<P>
+  Another complication arises regarding the expressions.
+  The usefulness of \(T = 1/f\) depends on what is reading the expression.
+  Multiple readers of the expression can be expected: humans, <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>, and Computer Algebra Systems (e.g., <a href="https://en.wikipedia.org/wiki/Wolfram_Mathematica">Mathematica</a>, <a href="https://en.wikipedia.org/wiki/SymPy">Sympy</a>).
+  This leads to the need for a unique identifier which is associated with the expression independent of the representation.
+  In <a href="https://en.wikipedia.org/wiki/Logic">Logic</a>, this unique identifier is referred to as the <a href="https://en.wikipedia.org/wiki/G%C3%B6del_numbering">Godel number</a>.
+  Similarly, the "feeds" (here <em>f</em> and <em>T</em> need unique identifiers.
+<P>
+
+<P>To summarize the above points,
+<UL>
+<LI>each inference rule gets a local identifier</LI>
+<LI>each expression gets a unique identifier</LI>
+<LI>each feed gets a unique identifier</LI>
+</UL>
+
+
+<P>
+  The expression index is the same across all derivations, whereas the local index is scoped to just the derivation step.
+  Similarly, the inference rule index is specific to the derivation step.
+</p>
+
+<P>
+  The inference rule needs the local index to build the graph.
+  The expression needs a local index to build the \(\rm\LaTeX\) PDF.
+</P>
+
+<P>
+  In addition to the inference rules and expressions, each \(\rm\LaTeX\) expression actually represents an Abstract Syntax Tree (AST) composed of symbols.
+</P>
+<img src="{{ url_for('static', filename='single_step_with_AST_per_expression_and_symbols.png') }}">
+<BR/>
+<center>
+Figure 4. All of the jargon used and the relation between jargon used in the Physics Derivation Graph.
+</center>
+
+{% endblock %}
