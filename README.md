@@ -33,22 +33,22 @@ See [developer documentation](https://derivationmap.net/developer_documentation?
 ## quickstart
 
 ```bash
-docker-compose up --build --remove-orphans
+docker compose up --build --remove-orphans
 ```
 As a two step process:
 
 ```bash
-docker-compose build --progress tty
-docker-compose up
+docker compose build --progress tty
+docker compose up
 ```
 On DigitalOcean server:
 
 ```bash
-docker-compose up --build --remove-orphans --detach
+docker compose up --build --remove-orphans --detach
 ```
 or
 ```bash
-docker-compose up --build --force-recreate --remove-orphans --detach
+docker compose up --build --force-recreate --remove-orphans --detach
 ```
 
 Because software is in Docker containers (for reproducibility), the versions of the Docker software you're using matter. The
