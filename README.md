@@ -1,5 +1,5 @@
 
-This repo is the source code for the website <https://derivationmap.net/>, aka <https://allofphysics.com>.
+This repo is the source code for the website <https://allofphysics.com>, aka <https://derivationmap.net/>.
 
 
 
