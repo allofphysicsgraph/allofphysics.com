@@ -7,8 +7,6 @@
 
 # https://docs.docker.com/compose/compose-file/
 
-version: "3.6"
-
 services:
   flask:
     build:
@@ -58,6 +56,12 @@ services:
      - ${PWD}/flask/users_sqlite.db:/home/appuser/app/users_sqlite.db
      - ${PWD}/flask/data.json:/home/appuser/app/data.json
      - /var/log/auth.log:/home/appuser/app/logs/auth.log
+    healthcheck:
+      test: wget http://localhost:5000 || exit 1
+      interval: 3s
+      timeout: 10s
+      retries: 20
+      start_period: 3s
 
 
 
