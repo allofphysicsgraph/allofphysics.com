@@ -30,8 +30,6 @@ RUN apt-get update && \
                python3 \
                python3-pip \
                python3-dev \
-#               python2.7 \
-#               python-pip \
 # documentation generation
                python3-sphinx \
                build-essential  \
@@ -42,9 +40,6 @@ RUN apt-get update && \
 #               git-core \
 # npm for mathjax
                npm \
-#               2to3 \
-#               automake \
-#               autoreconf \
 # compile .tex to .dvi
                texlive \
     && rm -rf /var/lib/apt/lists/*
@@ -53,9 +48,10 @@ RUN apt-get update && \
 # requirements.txt contains a list of the Python packages needed for the PDG
 COPY requirements.txt /tmp
 
+# need to set WORKDIR before running npm, otherwise the error is "npm ERR! Tracker "idealTree" already exists"
+WORKDIR /opt
 # https://www.npmjs.com/package/mathjax
 RUN npm install mathjax@3
-#RUN npm install mathjax
 
 # convert DVI to SVG
 # not necessary, and written in Python2. Conversion to Python3 using 2to3 failed :(
@@ -70,7 +66,10 @@ RUN npm install mathjax@3
 # https://stackoverflow.com/a/63457606/1164295
 RUN pip3 install --upgrade pip
 
+# without the "--ignore-installed" installation of Flask fails
+RUN pip3 install --no-cache-dir -vvv --ignore-installed  Flask
 RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv
+
 
 RUN useradd --create-home appuser
 WORKDIR       /home/appuser/app
@@ -98,8 +97,9 @@ COPY common_lib.py \
      /home/appuser/app/
 
 USER root
-RUN mv /node_modules/mathjax/es5 /home/appuser/app/static/mathjax
+RUN mv /opt/node_modules/mathjax/es5 /home/appuser/app/static/mathjax
 RUN chown -R appuser /home/appuser/app && chgrp -R appuser /home/appuser/app
+
 
 # TODO - https://github.com/allofphysicsgraph/proofofconcept/issues/82
 #RUN tlmgr init-usertree
