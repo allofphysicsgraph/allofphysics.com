@@ -4117,6 +4117,13 @@ def create_new_inf_rule():
     )
 
 
+@app.route("/pg/frontpage", methods=["GET", "POST"])
+def pg_frontpage():
+    """
+    """
+    return render_template("property-graph/frontpage.html")
+
+
 if __name__ == "__main__":
     #    try:
     #        session_id = compute.create_session_id()
