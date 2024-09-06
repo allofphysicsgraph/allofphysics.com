@@ -70,7 +70,6 @@ RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir -vvv --ignore-installed  Flask
 RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv
 
-
 RUN useradd --create-home appuser
 WORKDIR       /home/appuser/app
 RUN mkdir -p  /home/appuser/app/uploads
