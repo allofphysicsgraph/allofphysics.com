@@ -6,9 +6,15 @@
 
 # https://docs.docker.com/engine/reference/builder/#from
 # https://github.com/phusion/baseimage-docker
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:focal-1.1.0
+# OLD (prior to 2024-09-06):
+# FROM phusion/baseimage:0.11
 # Ubuntu is too big
 #FROM ubuntu:latest
+
+# force stdin, stdout and stderr to be totally unbuffered (eg. avoid delayed prints).
+# avoid python printing issues in docker containers.
+ENV PYTHONUNBUFFERED=1
 
 # PYTHONDONTWRITEBYTECODE: Prevents Python from writing pyc files to disk (equivalent to python -B option)
 ENV PYTHONDONTWRITEBYTECODE 1
