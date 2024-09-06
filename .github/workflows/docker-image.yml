@@ -14,8 +14,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file flask/Dockerfile --tag my-image-name:$(date +%s)
 
+    - name: Build the stack
+      run: docker-compose up -d
+    
     - name: 
       run: docker ps -a
