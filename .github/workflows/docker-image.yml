@@ -17,6 +17,11 @@ jobs:
 
     - name: Build the stack
       run: docker compose up -d
-    
+
+    # after successful build it takes a while for containers to initialize
+    - name: Sleep for __ seconds
+      run: sleep 60s
+      shell: bash
+
     - name: 
       run: docker ps -a
