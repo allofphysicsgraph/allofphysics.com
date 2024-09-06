@@ -56,12 +56,12 @@ services:
      - ${PWD}/flask/users_sqlite.db:/home/appuser/app/users_sqlite.db
      - ${PWD}/flask/data.json:/home/appuser/app/data.json
      - /var/log/auth.log:/home/appuser/app/logs/auth.log
-#    healthcheck:
-#      test: wget http://localhost:5000 || exit 1
-#      interval: 3s
-#      timeout: 10s
-#      retries: 20
-#      start_period: 3s
+    healthcheck:
+      test: wget http://localhost:5000 || exit 1
+      interval: 3s
+      timeout: 10s
+      retries: 20
+      start_period: 3s
 
 
 
@@ -70,15 +70,20 @@ services:
   # https://stackoverflow.com/questions/48465046/run-neo4j-with-docker-compose-neo4j-not-accessible-from-localhost7474
   # https://medium.com/@faaizhussain/neo4j-4-0-docker-compose-9bead6634c8
   neo4j_docker:
+    # https://hub.docker.com/_/neo4j/tags
     image: neo4j:4.4.4-community
     restart: unless-stopped
+
     hostname: neo4j_host
+
     #network_mode: "bridge"
     # https://stackoverflow.com/a/48637671/1164295
     networks:
       neo4j-internal:
         aliases:
           - neo4j-network
+
+
     # The ports that will be accessible from outside the container
     # 7474=HTTP, 7473=HTTPS, 7687=Bolt; as per https://neo4j.com/developer/docker-run-neo4j/
     expose:
@@ -127,11 +132,10 @@ services:
     - ${PWD}/flask/logs/:/logs/
     - ${PWD}/certs/:/certs/
     depends_on:
-      - flask
-    networks:
-      neo4j-internal:
-        aliases:
-          - neo4j-network
+      flask:
+# https://docs.docker.com/compose/compose-file/05-services/#healthcheck
+        condition: service_healthy
+
 
 
 networks:
