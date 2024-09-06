@@ -9,7 +9,7 @@ up:
 
 
 down:
-	docker-compose down
+	docker compose down
 
 
 kill:
