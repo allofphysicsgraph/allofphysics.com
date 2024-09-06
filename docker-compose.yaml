@@ -106,13 +106,14 @@ services:
       - NEO4J_dbms_directories_import=dumping_grounds # relative to /var/lib/neo4j
       - NEO4J_dbms_security_procedures_allowlist=gds.*, apoc.*
 #      - NEO4JLABS_PLUGINS=["apoc"] # downloads from gitlab everytime the container is started
-    # https://stackoverflow.com/a/74689805/1164295
+    # https://docs.docker.com/reference/dockerfile/#healthcheck -- official documentation
+    # https://stackoverflow.com/a/74689805/1164295 -- a concise and relevant example
     healthcheck:
       test: wget http://localhost:7474 || exit 1
-      interval: 3s
-      timeout: 10s
-      retries: 20
-      start_period: 3s
+      interval: 3s      # The health check will first run interval seconds after the container is started, and then again interval seconds after each previous check completes.
+      timeout: 5s      # If a single run of the check takes longer than timeout seconds then the check is considered to have failed.
+      retries: 20       # It takes retries consecutive failures of the health check for the container to be considered unhealthy.
+      start_period: 10s # provides initialization time for containers that need time to bootstrap. Probe failure during that period will not be counted towards the maximum number of retries. However, if a health check succeeds during the start period, the container is considered started and all consecutive failures will be counted towards the maximum number of retries.
 
 
 
