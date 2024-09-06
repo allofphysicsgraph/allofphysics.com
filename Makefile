@@ -10,3 +10,17 @@ up:
 
 down:
 	docker-compose down
+
+
+kill:
+	docker kill $(docker ps -q)
+
+
+# This will remove:
+#  - all stopped containers
+#  - all networks not used by at least one container
+#  - all dangling images
+#  - unused build cache
+clear:
+	docker system prune
+
