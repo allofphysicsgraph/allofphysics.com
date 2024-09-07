@@ -1,8 +1,17 @@
 
 This repo is the source code for the website <https://allofphysics.com>, aka <https://derivationmap.net/>.
 
+# How to use (for the impatient)
 
-# Files not in this repo
+```bash
+git clone https://github.com/allofphysicsgraph/allofphysics.com.git
+cd allofphysics.com
+make up
+```
+
+See [developer documentation](https://derivationmap.net/developer_documentation?referrer=github_README) after reading the [user documentation](https://derivationmap.net/user_documentation)
+
+## Files not in this repo
  * `certs/dhparam.pem`
  * `certs/fullchain.pem`
  * `certs/privkey.pem`
@@ -17,30 +26,24 @@ GOOGLE_CLIENT_SECRET=
 SECRET_KEY=
 ```
 
-# How to use (for the impatient)
+## build and run
 
 ```bash
-git clone https://github.com/allofphysicsgraph/allofphysics.com.git
-cd allofphysics.com
 docker compose up --build --remove-orphans
 ```
-
-See [developer documentation](https://derivationmap.net/developer_documentation?referrer=github_README) after reading the [user documentation](https://derivationmap.net/user_documentation)
-
-
-## As a two step process
-```bash
-docker compose build --progress tty
-docker compose up
-```
-## On DigitalOcean server:
-
+or
 ```bash
 docker compose up --build --remove-orphans --detach
 ```
 or
 ```bash
 docker compose up --build --force-recreate --remove-orphans --detach
+```
+
+## As a two step process
+```bash
+docker compose build --progress tty
+docker compose up
 ```
 
 # Software Requirements
@@ -52,12 +55,46 @@ docker compose up --build --force-recreate --remove-orphans --detach
 
 Because software is in Docker containers (for reproducibility), the versions of the Docker software you're using matter. The
 software in this repo has been tested with
-* docker-compose 1.29.2
-* Compose file format 3.6
-* Docker Engine release 20.10.11
+* docker compose 2.29.2
+* Compose file format 3.6 -- <https://docs.docker.com/reference/compose-file/>
+* Docker Engine release 27.2.0
 See <https://docs.docker.com/compose/compose-file/compose-versioning/> for compatibility of versions.
 
+which is gathered by running
+```bash
+$ docker compose version
+Docker Compose version v2.29.2
+```
+```bash
+$ docker version
+Client: Docker Engine - Community
+ Version:           27.2.0
+ API version:       1.47
+ Go version:        go1.21.13
+ Git commit:        3ab4256
+ Built:             Tue Aug 27 14:15:15 2024
+ OS/Arch:           linux/amd64
+ Context:           default
 
+Server: Docker Engine - Community
+ Engine:
+  Version:          27.2.0
+  API version:      1.47 (minimum version 1.24)
+  Go version:       go1.21.13
+  Git commit:       3ab5c7d
+  Built:            Tue Aug 27 14:15:15 2024
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.21
+  GitCommit:        472731909fa34bd7bc9c087e4c27943f9835f111
+ runc:
+  Version:          1.1.13
+  GitCommit:        v1.1.13-0-g58aa920
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+```
 # Licensing
 
 Unless otherwise noted, all source code is covered by the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/)
