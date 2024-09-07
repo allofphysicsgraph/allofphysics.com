@@ -5,7 +5,6 @@
 
 <UL>
   <LI><a href="{{ url_for('pg_main') }}?referrer=main">site map</a> (this page)</LI>
-
 </UL>
 
 <P>&nbsp;</P>
@@ -15,6 +14,18 @@
   <legend>
     <h2>Danger zone!</h2>
   </legend>
+
+  <fieldset>
+    <legend>
+      <H3><a name="upload data">Upload data</a></H3>
+    </legend>
+
+    <!-- https://www.google.com/search?q=flask+upload+file -->
+    Upload database file (.cypher only):
+
+    <P>Potential alternative: <a href="https://neo4j.com/labs/apoc/4.3/overview/apoc.load/apoc.load.json/">download/upload custom JSON</a>
+  </fieldset>
+
 </fieldset>
 
 {% endblock %}
