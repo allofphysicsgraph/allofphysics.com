@@ -13,17 +13,18 @@ import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 def get_db():
     logger.info("[trace]")
     if "db" not in g:
-        g.db = sqlite3.connect(
-            "users_sqlite.db", detect_types=sqlite3.PARSE_DECLTYPES
-        )
+        g.db = sqlite3.connect("users_sqlite.db", detect_types=sqlite3.PARSE_DECLTYPES)
         g.db.row_factory = sqlite3.Row
 
     return g.db
+
 
 def close_db(e=None):
     logger.info("[trace]")
@@ -32,6 +33,7 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+
 
 def init_db():
     logger.info("[trace]")
@@ -45,17 +47,22 @@ def init_db():
 
     logger.debug("ran schema.sql")
 
+
 @click.command("init-db")
 @with_appcontext
 def init_db_command():
     """Clear the existing data and create new tables."""
     logger.info("[trace]")
     init_db()
+
+
 #    click.echo("Initialized the database.")
+
 
 def init_app(app):
     logger.info("[trace]")
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
 
 # EOF

@@ -12,12 +12,22 @@ separate the API routes and functions into this file and thus make controller.py
 from flask import current_app
 
 import common_lib as clib
-from flask import Blueprint, flash, g, redirect, render_template, jsonify, request, session, url_for
+from flask import (
+    Blueprint,
+    flash,
+    g,
+    redirect,
+    render_template,
+    jsonify,
+    request,
+    session,
+    url_for,
+)
+
 path_to_db = "pdg.db"
 
 # https://flask.palletsprojects.com/en/1.1.x/tutorial/views/
-bp = Blueprint('pdg_api', __name__, url_prefix='/api')
-
+bp = Blueprint("pdg_api", __name__, url_prefix="/api")
 
 
 @bp.route("/v1/resources/derivations/all", methods=["GET"])
@@ -298,14 +308,18 @@ def what_derivations_contain_expr_global_id(expr_global_id):
     if "expr_global_id" in request.args:
         expr_global_id = str(request.args["expr_global_id"])
     else:
-        return "Error: No expr_global_id field provided. Please specify a expr_global_id."
+        return (
+            "Error: No expr_global_id field provided. Please specify a expr_global_id."
+        )
     if expr_global_id in dat["expressions"].keys():
-        for deriv_id, deriv_dict in dat['derivations'].items():
-            for step_id, step_dict in deriv_dict['steps'].items():
-                for conn in ['feeds', 'inputs', 'outputs']:
+        for deriv_id, deriv_dict in dat["derivations"].items():
+            for step_id, step_dict in deriv_dict["steps"].items():
+                for conn in ["feeds", "inputs", "outputs"]:
                     for expr_local_id in step_dict[conn]:
-                        if (expr_global_id == dat["expr local to global"][expr_local_id]):
-                            list_of_derivations_containing_expr_global_id.append(deriv_id)
+                        if expr_global_id == dat["expr local to global"][expr_local_id]:
+                            list_of_derivations_containing_expr_global_id.append(
+                                deriv_id
+                            )
     else:
         return "Error: expr_global_id not in expressions."
 

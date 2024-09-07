@@ -8,6 +8,7 @@ up_monitor:
 	       	docker kill $$(docker ps -q); \
 		fi
 	docker ps
+	docker run -it --rm -v `pwd`:/scratch allofphysicscom-flask /bin/bash -c 'for filename in /scratch/flask/*.py; do echo $$filename; done | xargs black'
 	docker compose up --build --force-recreate --remove-orphans
 
 up:
@@ -17,6 +18,7 @@ up:
 		docker kill $$(docker ps -q); \
 		fi
 	docker ps
+	docker run -it --rm -v `pwd`:/scratch allofphysicscom-flask /bin/bash -c 'for filename in /scratch/flask/*.py; do echo $$filename; done | xargs black'
 	docker compose up --build --force-recreate --remove-orphans --detach
 
 
