@@ -69,7 +69,7 @@ COPY common_lib.py \
      logs_to_stats.py \
      json_schema.py \
      Makefile \
-     pdg_api.py \
+     pdg_pg_api.py \
      pg_library \
      schema.sql \
      sql_db.py \
