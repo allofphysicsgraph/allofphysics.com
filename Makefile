@@ -1,3 +1,6 @@
+# Ben Payne
+# Physics Derivation Graph
+# https://allofphysics.com
 
 # todo: docker kill $(docker ps -q); make up
 

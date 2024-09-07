@@ -1,5 +1,6 @@
 certs
 .env
+dumping_grounds
 flask/users_sqlite.db
 flask/logs
 neo4j_pdg/plugins/

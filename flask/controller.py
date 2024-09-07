@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-
+# Ben Payne
 # Physics Derivation Graph
-# Ben Payne, 2021
+# https://allofphysics.com
+# Creative Commons Attribution 4.0 International License
 # https://creativecommons.org/licenses/by/4.0/
-# Attribution 4.0 International (CC BY 4.0)
+
 
 """
 # convention: every function and class includes a [trace] print
