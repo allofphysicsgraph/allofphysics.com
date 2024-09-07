@@ -228,9 +228,9 @@ app.config["DEBUG"] = True
 app.config["GOOGLE_LOGIN_REDIRECT_SCHEME"] = "https"
 
 # https://flask.palletsprojects.com/en/1.1.x/tutorial/views/
-import pdg_api
+import pdg_pg_api
 
-app.register_blueprint(pdg_api.bp)
+app.register_blueprint(pdg_pg_api.bp)
 
 
 # https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
