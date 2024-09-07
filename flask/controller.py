@@ -126,6 +126,16 @@ import compute  # PDG
 import validate_steps_sympy as vir  # PDG
 import validate_dimensions_sympy as vdim  # PDG
 
+sys.path.append("pg_library")
+import neo4j_query
+
+# Database Credentials
+# "bolt" vs "neo4j" https://community.neo4j.com/t/different-between-neo4j-and-bolt/18498
+uri = "bolt://neo4j_docker:7687"
+# userName        = "neo4j"
+# password        = "test"
+
+
 # global proc_timeout
 proc_timeout = 30
 path_to_db = "pdg.db"
