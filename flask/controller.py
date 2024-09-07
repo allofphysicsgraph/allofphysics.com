@@ -28,11 +28,16 @@
 """
 
 import os
+import sys
 import json
 import shutil
 import time
 import random
 import copy
+
+# https://docs.python.org/3/library/typing.html
+# inspired by https://news.ycombinator.com/item?id=33844117
+from typing import NewType, Dict, List
 
 # https://docs.python.org/3/library/sqlite3.html
 import sqlite3
@@ -43,6 +48,8 @@ import logging
 # https://gist.github.com/ibeex/3257877
 from logging.handlers import RotatingFileHandler
 
+import neo4j
+from neo4j import GraphDatabase
 
 # https://hplgit.github.io/web4sciapps/doc/pub/._web4sa_flask004.html
 from flask import (
