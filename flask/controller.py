@@ -4191,10 +4191,121 @@ def create_new_inf_rule():
     )
 
 
-@app.route("/pg/frontpage", methods=["GET", "POST"])
-def pg_frontpage():
+@app.route("/pg/", methods=["GET", "POST"])
+def pg_main():
     """
     """
+    trace_id = str(random.randint(1000000, 9999999))
+    print("[TRACE] func: pdg_app/main start " + trace_id)
+    query_time_dict = {}  # type: Dict[str, float]
+
+
+    # performance TODO: replace the counts below with
+    # MATCH (n) RETURN distinct labels(n), count(*)
+
+    number_of_derivations = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_derivations = len(
+            session.read_transaction(
+                neo4j_query.get_list_node_dicts_of_type, "derivation"
+            )
+        )
+        query_time_dict["main: list_nodes_of_type, derivation"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_inference_rules = (
+        -1
+    )  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_inference_rules = len(
+            session.read_transaction(
+                neo4j_query.get_list_node_dicts_of_type, "inference_rule"
+            )
+        )
+        query_time_dict["main: list_nodes_of_type, inference_rule"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_expressions = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_expressions = len(
+            session.read_transaction(
+                neo4j_query.get_list_node_dicts_of_type, "expression"
+            )
+        )
+        query_time_dict["main: list_nodes_of_type, expression"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_scalars = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_scalars = len(
+            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "scalar")
+        )
+        query_time_dict["main: list_nodes_of_type, scalar"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_vectors = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_vectors = len(
+            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "vector")
+        )
+        query_time_dict["main: get_list_node_dicts_of_type, vector"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_matrices = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_matrices = len(
+            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "matrix")
+        )
+        query_time_dict["main: get_list_node_dicts_of_type, matrix"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_operations = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_operations = len(
+            session.read_transaction(
+                neo4j_query.get_list_node_dicts_of_type, "operation"
+            )
+        )
+        query_time_dict["main: get_list_node_dicts_of_type, operation"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_relations = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_relations = len(
+            session.read_transaction(
+                neo4j_query.get_list_node_dicts_of_type, "relation"
+            )
+        )
+        query_time_dict["main: get_list_node_dicts_of_type, relation"] = (
+            time.time() - query_start_time
+        )
+
+    number_of_feeds = -1  # initialize to an intentionally a non-sensical number
+    with graphDB_Driver.session() as session:
+        query_start_time = time.time()
+        number_of_feeds = len(
+            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "feed")
+        )
+        query_time_dict["main: get_list_node_dicts_of_type, feed"] = (
+            time.time() - query_start_time
+        )
+
+
     return render_template("property-graph/frontpage.html")
 
 
