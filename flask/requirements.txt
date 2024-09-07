@@ -7,6 +7,9 @@ Flask-Login
 #Flask-Bootstrap==3.3.7.1
 Flask-Bootstrap
 
+# native driver; see https://neo4j.com/docs/api/python-driver/current/api.html
+neo4j
+
 #scikit-build==0.18.1
 scikit-build
 # image size
