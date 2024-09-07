@@ -28,17 +28,11 @@
 """
 
 import os
-import sys
 import json
 import shutil
 import time
 import random
 import copy
-
-# https://docs.python.org/3/library/typing.html
-# inspired by https://news.ycombinator.com/item?id=33844117
-from typing import NewType, Dict, List
-
 
 # https://docs.python.org/3/library/sqlite3.html
 import sqlite3
@@ -48,9 +42,6 @@ import logging
 
 # https://gist.github.com/ibeex/3257877
 from logging.handlers import RotatingFileHandler
-
-import neo4j
-from neo4j import GraphDatabase
 
 
 # https://hplgit.github.io/web4sciapps/doc/pub/._web4sa_flask004.html
@@ -127,71 +118,6 @@ import json_schema  # PDG
 import compute  # PDG
 import validate_steps_sympy as vir  # PDG
 import validate_dimensions_sympy as vdim  # PDG
-
-sys.path.append("pg_library")
-import neo4j_query
-
-# Database Credentials
-# "bolt" vs "neo4j" https://community.neo4j.com/t/different-between-neo4j-and-bolt/18498
-uri = "bolt://neo4j_docker:7687"
-# userName        = "neo4j"
-# password        = "test"
-
-
-# ORDERING: must come after constrain_id_to_be_unique
-# Connect to the neo4j database server
-neo4j_available = False
-while not neo4j_available:
-    print("TRACE: started while loop")
-    try:
-        graphDB_Driver = GraphDatabase.driver(uri)
-        neo4j_available = True
-        time.sleep(1)
-    except ValueError:
-        print("waiting 5 seconds for neo4j connection")
-        time.sleep(5)
-
-try:
-    with graphDB_Driver.session() as session:
-        # NO TIMING NEEDED HERE
-        list_of_derivation_IDs = session.write_transaction(
-            neo4j_query.constrain_unique_id
-        )
-        if list_of_derivation_IDs:
-            number_of_derivations = len(list_of_derivation_IDs)
-        else:  # list_of_derivation_IDs was "None"
-            number_of_derivations = 0
-
-except neo4j.exceptions.ClientError as er:
-    print("Neo4j exception: " + str(er))
-
-
-print(
-    "flask",
-    importlib.metadata.version("flask"),
-    "- https://flask.palletsprojects.com/en/3.0.x/",
-)
-print(
-    "secure", importlib.metadata.version("secure"), "- https://pypi.org/project/secure/"
-)
-print(
-    "wtforms",
-    importlib.metadata.version("wtforms"),
-    "- https://wtforms.readthedocs.io/en/3.1.x/",
-)
-print(
-    "werkzeug",
-    importlib.metadata.version("werkzeug"),
-    "- https://werkzeug.palletsprojects.com/en/3.0.x/",
-)
-print(
-    "flask_wtf",
-    importlib.metadata.version("flask_wtf"),
-    "- https://flask-wtf.readthedocs.io/en/1.2.x/",
-)
-print("neo4j", importlib.metadata.version("neo4j"), "- https://pypi.org/project/neo4j/")
-print("python", sys.version)
-
 
 # global proc_timeout
 proc_timeout = 30
@@ -4195,126 +4121,7 @@ def create_new_inf_rule():
 def pg_frontpage():
     """
     """
-    # performance TODO: replace the counts below with
-    # MATCH (n) RETURN distinct labels(n), count(*)
-
-    number_of_derivations = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_derivations = len(
-            session.read_transaction(
-                neo4j_query.get_list_node_dicts_of_type, "derivation"
-            )
-        )
-        query_time_dict["main: list_nodes_of_type, derivation"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_inference_rules = (
-        -1
-    )  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_inference_rules = len(
-            session.read_transaction(
-                neo4j_query.get_list_node_dicts_of_type, "inference_rule"
-            )
-        )
-        query_time_dict["main: list_nodes_of_type, inference_rule"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_expressions = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_expressions = len(
-            session.read_transaction(
-                neo4j_query.get_list_node_dicts_of_type, "expression"
-            )
-        )
-        query_time_dict["main: list_nodes_of_type, expression"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_scalars = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_scalars = len(
-            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "scalar")
-        )
-        query_time_dict["main: list_nodes_of_type, scalar"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_vectors = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_vectors = len(
-            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "vector")
-        )
-        query_time_dict["main: get_list_node_dicts_of_type, vector"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_matrices = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_matrices = len(
-            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "matrix")
-        )
-        query_time_dict["main: get_list_node_dicts_of_type, matrix"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_operations = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_operations = len(
-            session.read_transaction(
-                neo4j_query.get_list_node_dicts_of_type, "operation"
-            )
-        )
-        query_time_dict["main: get_list_node_dicts_of_type, operation"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_relations = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_relations = len(
-            session.read_transaction(
-                neo4j_query.get_list_node_dicts_of_type, "relation"
-            )
-        )
-        query_time_dict["main: get_list_node_dicts_of_type, relation"] = (
-            time.time() - query_start_time
-        )
-
-    number_of_feeds = -1  # initialize to an intentionally a non-sensical number
-    with graphDB_Driver.session() as session:
-        query_start_time = time.time()
-        number_of_feeds = len(
-            session.read_transaction(neo4j_query.get_list_node_dicts_of_type, "feed")
-        )
-        query_time_dict["main: get_list_node_dicts_of_type, feed"] = (
-            time.time() - query_start_time
-        )
-
-    print("[TRACE] func: pdg_app/main end " + trace_id)
-    return render_template(
-        "property-graph/site_map.html",
-        title="site map",
-        query_time_dict=query_time_dict,
-        number_of_derivations=number_of_derivations,
-        number_of_inference_rules=number_of_inference_rules,
-        number_of_expressions=number_of_expressions,
-        number_of_feeds=number_of_feeds,
-        number_of_scalars=number_of_scalars,
-        number_of_vectors=number_of_vectors,
-        number_of_matrices=number_of_matrices,
-        number_of_operations=number_of_operations,
-        number_of_relations=number_of_relations,
-    )
+    return render_template("property-graph/frontpage.html")
 
 
 if __name__ == "__main__":
