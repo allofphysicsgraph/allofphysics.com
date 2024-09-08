@@ -5,14 +5,29 @@
 
 <P><small>Published 2024-09-08T01:26:00.006Z by Physics Derivation Graph</small></P>
 
+<P>An extension to <a href="https://physicsderivationgraph.blogspot.com/2020/02/example-latex-expressions-to-parse.html">example Latex expressions to parse</a></P>
 
-Just a symbol:
+<H2>valid math latex in order of increasing complexity</h2>
+
+A plain text symbol:
 $$
 A
 $$
 A symbol that uses Latex:
 $$
 \vec{A}
+$$
+operator with symbol
+$$
+\lim_{x\to\infty} f(x)
+$$
+operator with symbol
+$$
+\sin x
+$$
+operator between symbols
+$$
+f \in g
 $$
 An expression that has a left and right side:
 $$
@@ -27,10 +42,9 @@ $$
 \vec{A} = u \hat{x} + v \hat{y}
 $$
 $$
-A^u + \frac{Y}{3} + \int B dx + \sum_{z=1}^{n} c_k = D f(y) - G|_0^{\inf}
+A^u + \frac{Y}{3} + \int B dx + \sum_{z=1}^{n} c_k = D f(y) - G|_0^{\infty}
 $$
 An expression involving a matrix:
-
 $$
 \hat{A} = 
 \begin{bmatrix}
@@ -38,30 +52,72 @@ $$
 a & b & c
 \end{bmatrix}
 $$
-
 An expression with a condition:
 $$
-A = x y \mbox{when } x>0
+A = x y \mbox{ when } x > 0
 $$
+Multi-part expression
 $$
 f(x) = 
 \left\{
 	\begin{array}{ll}
-		x^2  & \mbox{when } x \geq 0 \\
-		x    & \mbox{when } x < 0
+		x^2  & \mbox{ when } x \geq 0 \\
+		x    & \mbox{ when } x < 0
 	\end{array}
 \right.
 $$
-
+condition
 $$
-A = x y \mbox{where } x \in \Integer
-$$
-
-
-$$
-A = x \mbox{when } x << 3
+A = x y \mbox{ where } x \in \mathbb{Z}
 $$
 
+condition
+$$
+A = x \mbox{ when } x \ll 3
+$$
+multiple expressions as one expression
 $$
 x = \pm \sqrt{a^2 - 4}
 $$
+non-equality relation operator
+$$
+A \approx B
+$$
+$$
+A > B
+$$
+
+<P>See also <a href="https://www.cs.put.poznan.pl/ksiek/latexmath.html">https://www.cs.put.poznan.pl/ksiek/latexmath.html</a> for examples.
+
+<H2>Valid math Latex that is ambiguous</H2>
+<UL>
+  <LI>Does \(1/2\pi\) refer to \((1/2) \pi\) xor \(1/(2 \pi)\)?</LI>
+  <LI>Does \(\sin x / y\) refer to \( (\sin x)/y \) xor \( \sin (x/y) \)?</LI>
+  <LI>Does \(\sin x + 2\) refer to \( (\sin x) + 2 \) xor \( \sin (x + 2) \)?</LI>
+</UL>
+source: <a href="https://www.ntg.nl/maps/26/16.pdf">https://www.ntg.nl/maps/26/16.pdf</a>
+
+See also
+<UL>
+  <LI><a href="https://math.stackexchange.com/a/1025217">https://math.stackexchange.com/a/1025217</a></LI>
+  <LI><a href="https://math.stackexchange.com/a/1026483">https://math.stackexchange.com/a/1026483</a></LI>
+</UL>
+
+<H2>invalid math latex in order of increasing complexity</H2>
+operator with no input
+$$
+a = b +
+$$
+
+unpaired "("
+$$
+\sin x \left(
+$$
+
+operator with no input
+$$
+\sin x \sum
+$$
+
+
+{% endblock %}
