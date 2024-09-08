@@ -1455,6 +1455,13 @@ def faq():
     return render_template("faq.html", title="Frequently Asked Questions")
 
 
+@app.route("/blog/", methods=["GET"])
+def blog_list():
+    """ """
+    logger.info("[trace]")
+    return render_template("blog/blog_list.html")
+
+
 @app.route("/blog/<YYYY>/<MM>/<blog_title>", methods=["GET"])
 def blog(YYYY: str, MM: str, blog_title: str):
     """
