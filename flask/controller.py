@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-
+# Ben Payne
 # Physics Derivation Graph
-# Ben Payne, 2021
+# https://allofphysics.com
+# Creative Commons Attribution 4.0 International License
 # https://creativecommons.org/licenses/by/4.0/
-# Attribution 4.0 International (CC BY 4.0)
+
 
 """
 # convention: every function and class includes a [trace] print
@@ -39,7 +40,6 @@ import copy
 # inspired by https://news.ycombinator.com/item?id=33844117
 from typing import NewType, Dict, List
 
-
 # https://docs.python.org/3/library/sqlite3.html
 import sqlite3
 
@@ -51,7 +51,6 @@ from logging.handlers import RotatingFileHandler
 
 import neo4j
 from neo4j import GraphDatabase
-
 
 # https://hplgit.github.io/web4sciapps/doc/pub/._web4sa_flask004.html
 from flask import (
@@ -71,7 +70,8 @@ from flask import (
 from flask_wtf import FlaskForm, CSRFProtect, Form  # type: ignore
 
 # https://github.com/TypeError/secure
-import secure # type: ignore
+import secure  # type: ignore
+
 # what feature gets added? See https://improveandrepeat.com/2020/10/python-friday-43-add-security-headers-to-your-flask-application/
 
 # https://flask-login.readthedocs.io/en/latest/_modules/flask_login/mixins.html
@@ -130,6 +130,7 @@ import validate_dimensions_sympy as vdim  # PDG
 
 sys.path.append("pg_library")
 import neo4j_query
+import list_of_valid
 
 # Database Credentials
 # "bolt" vs "neo4j" https://community.neo4j.com/t/different-between-neo4j-and-bolt/18498
@@ -165,6 +166,8 @@ try:
 except neo4j.exceptions.ClientError as er:
     print("Neo4j exception: " + str(er))
 
+
+import importlib
 
 print(
     "flask",
@@ -213,21 +216,21 @@ app = Flask(__name__, static_folder="static")
 app.config.from_object(
     Config
 )  # https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-iii-web-forms
-app.config[
-    "UPLOAD_FOLDER"
-] = "/home/appuser/app/uploads"  # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
-app.config[
-    "SEND_FILE_MAX_AGE_DEFAULT"
-] = 0  # https://stackoverflow.com/questions/34066804/disabling-caching-in-flask
+app.config["UPLOAD_FOLDER"] = (
+    "/home/appuser/app/uploads"  # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
+)
+app.config["SEND_FILE_MAX_AGE_DEFAULT"] = (
+    0  # https://stackoverflow.com/questions/34066804/disabling-caching-in-flask
+)
 app.config["DEBUG"] = True
 
 # https://stackoverflow.com/a/24226084/1164295
 app.config["GOOGLE_LOGIN_REDIRECT_SCHEME"] = "https"
 
 # https://flask.palletsprojects.com/en/1.1.x/tutorial/views/
-import pdg_api
+import pdg_pg_api
 
-app.register_blueprint(pdg_api.bp)
+app.register_blueprint(pdg_pg_api.bp)
 
 
 # https://flask-login.readthedocs.io/en/latest/#flask_login.LoginManager.user_loader
@@ -291,7 +294,7 @@ if True:
         # the logger will handle only INFO, WARNING, ERROR, and CRITICAL messages
         # and will ignore DEBUG messages
         level=logging.DEBUG,
-        format="%(asctime)s|%(filename)-13s|%(levelname)-5s|%(lineno)-4d|%(funcName)-20s|%(message)s"  # ,
+        format="%(asctime)s|%(filename)-13s|%(levelname)-5s|%(lineno)-4d|%(funcName)-20s|%(message)s",  # ,
         # https://stackoverflow.com/questions/6290739/python-logging-use-milliseconds-in-time-format/7517430#7517430
         # datefmt="%m/%d/%Y %I:%M:%S %f %p", # https://strftime.org/
     )
@@ -1452,6 +1455,13 @@ def faq():
     return render_template("faq.html", title="Frequently Asked Questions")
 
 
+@app.route("/blog/", methods=["GET"])
+def blog_list():
+    """ """
+    logger.info("[trace]")
+    return render_template("blog/blog_list.html")
+
+
 @app.route("/blog/<YYYY>/<MM>/<blog_title>", methods=["GET"])
 def blog(YYYY: str, MM: str, blog_title: str):
     """
@@ -1562,9 +1572,8 @@ def historical_precedents():
     a static page
     """
     logger.info("[trace]")
-    return render_template(
-        "historical_precedents.html", title="historical precedents"
-    )
+    return render_template("historical_precedents.html", title="historical precedents")
+
 
 @app.route("/comparison_of_design_options_cas", methods=["GET", "POST"])
 def comparison_of_design_options_cas():
@@ -1573,8 +1582,10 @@ def comparison_of_design_options_cas():
     """
     logger.info("[trace]")
     return render_template(
-        "comparison_of_design_options_cas.html", title="Comparison of Design Options Documentation"
+        "comparison_of_design_options_cas.html",
+        title="Comparison of Design Options Documentation",
     )
+
 
 @app.route("/comparison_of_design_options_proofs", methods=["GET", "POST"])
 def comparison_of_design_options_proofs():
@@ -1583,8 +1594,10 @@ def comparison_of_design_options_proofs():
     """
     logger.info("[trace]")
     return render_template(
-        "comparison_of_design_options_proofs.html", title="Comparison of Design Options Documentation"
+        "comparison_of_design_options_proofs.html",
+        title="Comparison of Design Options Documentation",
     )
+
 
 @app.route("/comparison_of_design_options_syntax", methods=["GET", "POST"])
 def comparison_of_design_options_syntax():
@@ -1593,8 +1606,10 @@ def comparison_of_design_options_syntax():
     """
     logger.info("[trace]")
     return render_template(
-        "comparison_of_design_options_syntax.html", title="Comparison of Design Options Documentation"
+        "comparison_of_design_options_syntax.html",
+        title="Comparison of Design Options Documentation",
     )
+
 
 @app.route("/comparison_of_design_options_database", methods=["GET", "POST"])
 def comparison_of_design_options_database():
@@ -1603,8 +1618,10 @@ def comparison_of_design_options_database():
     """
     logger.info("[trace]")
     return render_template(
-        "comparison_of_design_options_database.html", title="Comparison of Design Options Documentation"
+        "comparison_of_design_options_database.html",
+        title="Comparison of Design Options Documentation",
     )
+
 
 @app.route("/design_principles_and_goals", methods=["GET", "POST"])
 def design_principles_and_goals():
@@ -1615,7 +1632,6 @@ def design_principles_and_goals():
     return render_template(
         "design_principles_and_goals.html", title="Design Principles and Goals"
     )
-
 
 
 # @app.route("/example_T_f_d3js", methods=["GET", "POST"])
@@ -3093,9 +3109,9 @@ def update_symbols(deriv_id: str, step_id: str):
             for expr_local_id in step_dict["inputs"] + step_dict["outputs"]:
                 expr_global_id = dat["expr local to global"][expr_local_id]
                 try:
-                    derivation_dimensions_validity_dict[
-                        expr_global_id
-                    ] = vdim.validate_dimensions(expr_global_id, path_to_db)
+                    derivation_dimensions_validity_dict[expr_global_id] = (
+                        vdim.validate_dimensions(expr_global_id, path_to_db)
+                    )
                 except Exception as err:
                     logger.error(this_step_id + ": " + str(err))
                     flash("in step " + this_step_id + ": " + str(err))
@@ -3594,9 +3610,9 @@ def review_derivation(deriv_id: str):
                 for expr_local_id in step_dict["inputs"] + step_dict["outputs"]:
                     expr_global_id = dat["expr local to global"][expr_local_id]
                     try:
-                        derivation_dimensions_validity_dict[
-                            expr_global_id
-                        ] = vdim.validate_dimensions(expr_global_id, path_to_db)
+                        derivation_dimensions_validity_dict[expr_global_id] = (
+                            vdim.validate_dimensions(expr_global_id, path_to_db)
+                        )
                     except Exception as err:
                         logger.error(this_step_id + ": " + str(err))
                         flash("in step " + this_step_id + ": " + str(err))
@@ -4191,10 +4207,13 @@ def create_new_inf_rule():
     )
 
 
-@app.route("/pg/frontpage", methods=["GET", "POST"])
-def pg_frontpage():
-    """
-    """
+@app.route("/pg/", methods=["GET", "POST"])
+def pg_main():
+    """ """
+    trace_id = str(random.randint(1000000, 9999999))
+    print("[TRACE] func: pdg_app/main start " + trace_id)
+    query_time_dict = {}  # type: Dict[str, float]
+
     # performance TODO: replace the counts below with
     # MATCH (n) RETURN distinct labels(n), count(*)
 

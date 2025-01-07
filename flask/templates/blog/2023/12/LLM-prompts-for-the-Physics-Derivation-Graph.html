@@ -1,0 +1,159 @@
+{% extends "_base.html" %}
+{% block content %}
+
+<H1>LLM prompts for the Physics Derivation Graph</H1>
+
+<P><small>Published 2023-12-16T19:22:00Z by Physics Derivation Graph</small></P>
+
+<p>Posing a prompt that gets a useful result currently requires some consideration. Below are some possible tasks for LLMs, along with additional context for the LLM.</p>
+
+<h2>Convert Latex to SymPy</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>Provide context for Latex -&nbsp;<a href="https://en.wikipedia.org/wiki/LaTeX">https://en.wikipedia.org/wiki/LaTeX</a></li><li>Provide context for&nbsp;SymPy -&nbsp;<a href="https://en.wikipedia.org/wiki/SymPy">https://en.wikipedia.org/wiki/SymPy</a></li>
+  <li>Provide example conversions&nbsp;</li><li>before submitting the prompt to an LLM, make sure the Latex is valid -&nbsp;<a href="https://quicklatex.com/">https://quicklatex.com/</a></li>
+</ul>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p><p>Context: SymPy&nbsp;is an open-source Python library for symbolic computation. SymPy&nbsp;provides a computer algebra system. SymPy can convert Latex math to SymPy, and SymPy can render a mathematical expression as Latex.</p><p>Question: What is the SymPy representation for the Latex expression $x^2 + y^2 = 1$ ?</p><p>Answer:
+</p></fieldset>
+<p><i>Right response</i>:</p>
+
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p><p>Context: SymPy&nbsp;is an open-source Python library for symbolic computation. SymPy&nbsp;provides a computer algebra system. SymPy can convert Latex math to SymPy, and SymPy can render a mathematical expression as Latex.</p><p>Question: What is the SymPy representation for the Latex expression $\vec{p}_{electron} = \vec{p}_{1}-\vec{p}_{2}$ ?</p><p>Answer:
+</p></fieldset>
+<p><i>Right response</i>:</p>
+
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p><p>Context: SymPy&nbsp;is an open-source Python library for symbolic computation. SymPy&nbsp;provides a computer algebra system. SymPy can convert Latex math to SymPy, and SymPy can render a mathematical expression as Latex.</p><p>Question: What is the SymPy representation for the Latex expression $x = \langle\psi_{\alpha}| \hat{A} |\psi_{\beta}\rangle$ ?</p><p>Answer:
+</p></fieldset>
+<p><i>Right response</i>:</p>
+
+
+<h2>Specify the mathematical relation between period and frequency as an equation in Latex</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>define period</li><li>define frequency -&nbsp;https://en.wikipedia.org/wiki/Frequency</li><li>Provide context for&nbsp;Latex -&nbsp;<a href="https://en.wikipedia.org/wiki/LaTeX">https://en.wikipedia.org/wiki/LaTeX</a></li>
+  <li>provide example&nbsp;</li>
+</ul>
+<p><i>Caveat</i>: the page&nbsp;<a href="https://en.wikipedia.org/wiki/Frequency">https://en.wikipedia.org/wiki/Frequency</a> includes the statement that
+  </p><blockquote>"period is the reciprocal of the frequency: f = 1/T."</blockquote>
+<fieldset>
+<p>Use the context below to produce a result. Keep the response short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p><p>Context: Period (symbol T) is the interval of time between events.&nbsp;Frequency (symbol f) is the number of occurrences of a repeating event per unit of time</p><p>Specify the mathematical relation between period and frequency as an equation in Latex.</p></fieldset>
+
+<h2>Find arxiv papers with derivations</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>Explain arxiv</li>
+  <li>define what I mean by a derivation</li>
+  <li>Provide example citations</li>
+</ul>
+<fieldset>
+<p>Provide citations based on the context below.&nbsp;</p><p>Context: arxiv is an open-access repository of electronic preprints</p><p>Context: a derivation in mathematical Physics consists of a sequence of steps. Each step relates mathematical expressions to an inference rule. An expression is comprised of symbols and operators. An inference rule typically transforms input expressions into output expressions.</p>
+  <p>Cite three papers from arxiv that contain mathematical derivations with more than four steps.</p>
+</fieldset>
+
+<h2>Identify derivation steps between physics equations</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>define what I mean by a derivation</li>
+  <li>Provide example steps</li>
+</ul>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer. Let's work this out in a step by step way to be sure we have the right answer.</p>
+  <p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p>
+  <p>Context: a derivation in mathematical Physics consists of a sequence of steps. Each step relates mathematical expressions to an inference rule. An expression is comprised of symbols and operators. An inference rule typically transforms input expressions into output expressions.</p>
+  <p>Question: What mathematical steps relate the Latex math expression $i x = log(y)$ and $\exp(i x) = y$ ?</p>
+  <p>Answer:
+</p></fieldset>
+<p><i>Right answer</i>: Raise both sides as the power of $\exp$
+
+</p><fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer. Let's work this out in a step by step way to be sure we have the right answer.</p>
+  <p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p>
+  <p>Context: a derivation in mathematical Physics consists of a sequence of steps. Each step relates mathematical expressions to an inference rule. An expression is comprised of symbols and operators. An inference rule typically transforms input expressions into output expressions.</p>
+  <p>Question: What is the derivative of $y = \cos(x) + i \sin(x)$ with respect to $x$ ?</p>
+  <p>Answer:
+</p></fieldset>
+<p><i>Right answer</i>: $\frac{d}{dx} y = -\sin(x) + i\cos(x)$</p>
+
+<h2>Derive the wave function for a quantum particle in a 1D box</h2>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer. Let's work this out in a step by step way to be sure we have the right answer.</p>
+  <p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p>
+  <p>Context: a derivation in mathematical Physics consists of a sequence of steps. Each step relates mathematical expressions to an inference rule. An expression is comprised of symbols and operators. An inference rule typically transforms input expressions into output expressions.</p>
+  <p>Question: derive the wave function for a quantum particle in a 1D box</p>
+  <p>Answer:
+</p></fieldset>
+<p>Right answer: see https://derivationmap.net/review_derivation/000010/
+
+</p>
+
+<h2>Derive Newton's Law of Universal Gravitation</h2>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer. Let's work this out in a step by step way to be sure we have the right answer.</p>
+    <p>Context: a derivation in mathematical Physics consists of a sequence of steps. Each step relates mathematical expressions to an inference rule. An expression is comprised of symbols and operators. An inference rule typically transforms input expressions into output expressions.</p>
+  <p>provide a derivation of Newton's Law of Universal Gravitation
+</p></fieldset>
+<p>See <a href="https://physicsderivationgraph.blogspot.com/2023/06/finding-derivations-of-newtons-law-of.html">https://physicsderivationgraph.blogspot.com/2023/06/finding-derivations-of-newtons-law-of.html</a>
+
+</p><h2>Convert derivation steps to a proof in Lean</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>define what I mean by a derivation</li>
+  <li>Explain lean</li>
+  <li>Provide example</li>
+  <li>Emphasize correctness and precision</li>
+</ul>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.&nbsp;Let's work this out in a step by step way to be sure we have the right answer.</p>
+  <p>Context: Lean is a proof assistant and programming language. Lean is based on the calculus of constructions with inductive types.</p><p>`a=b` is a proposition. The variable `a` is Real valued and `b` is Real valued. Prove in Lean that `(a=b) -&gt; (a+2=b+2)`</p></fieldset>
+
+<h2>Identify symbols in latex arxiv papers</h2>
+<p><i>TODO</i>:</p>
+<ul>
+  <li>Provide example</li>
+  <li>Emphasize correctness and precision</li>
+</ul>
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p>
+  <p>Question: What mathematical expressions are present in the following Latex?</p>
+  <pre>```
+\begin{equation}
+a = b + c
+\end{equation}
+Assuming you know $b$, then
+\begin{equation}
+b*c = f
+\end{equation}
+```</pre>
+  <p>Answer:
+</p></fieldset>
+
+<fieldset>
+<p>Answer the question based on the context below. Keep the answer short and concise. Respond "Unsure about answer" if not sure about the answer.
+
+</p><p>Context: Latex is&nbsp;software for document preparation to generate PDF files. Mathematical equations can be expressed in Latex using markup syntax.&nbsp;</p>
+  <p>Question: What variables are present in the following Latex?</p>
+<pre>```
+\begin{equation}
+a = b + c
+\end{equation}
+Assuming you know $b$, then
+\begin{equation}
+b*c = f
+\end{equation}
+```</pre>
+  <p>Answer:
+</p></fieldset><p></p><p></p>
+
+{% endblock %}

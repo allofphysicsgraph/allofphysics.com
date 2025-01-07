@@ -11,12 +11,14 @@ This module contains a set of SQL read/write functions needed for the Google Log
 
 # from https://realpython.com/flask-google-login/
 
-from flask_login import UserMixin # type: ignore
+from flask_login import UserMixin  # type: ignore
 from sql_db import get_db
 from sql_db import init_db
 import sqlite3
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 class User(UserMixin):
     logger.debug("in user.py/class User")
@@ -30,28 +32,24 @@ class User(UserMixin):
     @staticmethod
     def get(user_id):
         logger.debug("in user.py/class User/get")
-        #logger.debug(str(user_id)) # this is a numeric ID
+        # logger.debug(str(user_id)) # this is a numeric ID
         db = get_db()
         logger.debug("got db, now going to access table user")
         try:
-            user = db.execute(
-           "SELECT * FROM user WHERE id = ?", (user_id,)
-            ).fetchone()
+            user = db.execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
         except sqlite3.OperationalError as err:
-            logger.error("user.py get error: "+str(err))
+            logger.error("user.py get error: " + str(err))
             logger.debug(str(user_id))
             return None
-#            init_db()
-#            db = get_db()
-#            user = db.execute(
-#            "SELECT * FROM user WHERE id = ?", (user_id,)
-#            ).fetchone()
+        #            init_db()
+        #            db = get_db()
+        #            user = db.execute(
+        #            "SELECT * FROM user WHERE id = ?", (user_id,)
+        #            ).fetchone()
         if not user:
             return None
 
-        user = User(
-            id_=user[0], name=user[1], email=user[2], profile_pic=user[3]
-        )
+        user = User(id_=user[0], name=user[1], email=user[2], profile_pic=user[3])
         return user
 
     @staticmethod
@@ -59,10 +57,11 @@ class User(UserMixin):
         logger.debug("in user.py/class User/create")
         db = get_db()
         db.execute(
-            "INSERT INTO user (id, name, email, profile_pic) "
-            "VALUES (?, ?, ?, ?)",
+            "INSERT INTO user (id, name, email, profile_pic) " "VALUES (?, ?, ?, ?)",
             (id_, name, email, profile_pic),
         )
         db.commit()
         return
+
+
 # EOF
