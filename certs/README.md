@@ -1,4 +1,7 @@
 
+# generate certs for site on Internet
+
+See <https://physicsderivationgraph.blogspot.com/2021/10/periodic-renewal-of-https-letsencrypt.html>
 
 # how to generate local certificates
 
