@@ -32,7 +32,6 @@ import sympy.physics.units  # type: ignore
 from sympy.vector import cross, dot  # type: ignore
 from sympy.vector.deloperator import Del  # type: ignore
 
-
 logger = logging.getLogger(__name__)
 
 # https://pymotw.com/3/doctest/
