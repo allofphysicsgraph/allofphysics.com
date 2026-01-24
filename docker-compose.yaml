@@ -119,6 +119,10 @@ services:
 
   nginx:
     build: ./services/nginx
+    # https://docs.docker.com/reference/compose-file/services/#depends_on
+    depends_on: 
+      flask:
+        condition: service_started
     restart: on-failure
     ports:
      - "80:80"
@@ -127,8 +131,6 @@ services:
     volumes:
     - ${PWD}/flask/logs/:/logs/
     - ${PWD}/certs/:/certs/
-    depends_on:
-      - flask
     networks:
       neo4j-internal:
         aliases:
