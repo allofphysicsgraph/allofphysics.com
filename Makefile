@@ -43,7 +43,7 @@ up:
 
 
 down:
-	docker compose down
+	docker compose down --volumes --remove-orphans
 
 
 kill:
