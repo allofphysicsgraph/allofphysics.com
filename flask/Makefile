@@ -1,9 +1,25 @@
+# Physics Derivation Graph
+# Ben Payne, 2026
+
 # Creative Commons Attribution 4.0 International License
 # https://creativecommons.org/licenses/by/4.0/
 
 # this Makefile contains targets for use inside the Docker container and on the baremetal host
 
-# 
+# Get the machine architecture.
+# On arm64 (Apple Silicon M1/M2/etc.), `uname -m` outputs "arm64".
+# On amd64 (Intel), `uname -m` outputs "x86_64".
+ARCH := $(shell uname -m)
+
+ifeq ($(ARCH), arm64)
+        this_arch=arm64
+else ifeq ($(ARCH), x86_64)
+        this_arch=amd64
+else
+        @echo "Unknown architecture: $(ARCH). Cannot determine if Mac is new (arm64) or old (amd64)."
+endif
+
+# .PHONY is special target used to declare that a target name does not correspond to an actual file to be built.
 .PHONY: help clean webserver typehints flake8 pylint doctest mccabe
 
 help:
@@ -42,21 +58,22 @@ else
 	@echo 'FILE_NAME is undefined'
 endif
 
-docker:
-	docker build -t flask_ub .
+docker_build:
+	docker build -t allofphysicscom-flask:latest-$(this_arch) .
+
+docker: docker_build
 	docker run -it --rm -v`pwd`/data.json:/home/appuser/app/data.json \
            -v`pwd`/logs/:/home/appuser/app/logs/ \
            -v`pwd`/users_sqlite.db:/home/appuser/app/users_sqlite.db \
-           --env-file .env --publish 5000:5000 flask_ub
+           --env-file .env --publish 5000:5000 allofphysicscom-flask:latest-$(this_arch)
 
-dockerlive:
-	docker build -t flask_ub .
+dockerlive: docker_build
 	docker run -it --rm -v`pwd`:/scratch \
            -v`pwd`/data.json:/home/appuser/app/data.json \
            -v`pwd`/logs/:/home/appuser/app/logs/ \
            -v`pwd`/users_sqlite.db:/home/appuser/app/users_sqlite.db \
            --env-file .env --entrypoint='' \
-           --publish 5000:5000 flask_ub /bin/bash
+           --publish 5000:5000 allofphysicscom-flask:latest-$(this_arch) /bin/bash
 
 neo4j:
 	docker run --publish=7474:7474 --publish=7687:7687 --publish=7473:7473 \
