@@ -19,6 +19,8 @@ ENV PYTHONUNBUFFERED=1
 # PYTHONDONTWRITEBYTECODE: Prevents Python from writing pyc files to disk (equivalent to python -B option)
 ENV PYTHONDONTWRITEBYTECODE=1
 
+################# end variables; start apt packages #################################
+
 # https://docs.docker.com/engine/reference/builder/#run
 RUN apt-get update && \
     apt-get install -y \
