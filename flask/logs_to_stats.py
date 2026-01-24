@@ -10,7 +10,7 @@
 The purpose of this file is to transform log files on the webserver (e.g., DigitalOcean or localhost)
 into records that can be used to inform visualizations presented to the user.
 
-Reinventing Prometheus/Graphana for specific log files and specific views. 
+Reinventing Prometheus/Graphana for specific log files and specific views.
 """
 
 # the order of installation matters for these two :(
