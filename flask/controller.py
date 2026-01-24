@@ -4346,10 +4346,13 @@ if __name__ == "__main__":
     #        logger.error(str(err))
     #        session_id = "0"
     # this is only applicable for flask (and not gunicorn)
+
     # No SSL
     # app.run(debug=True, host="0.0.0.0")
+
     # from https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https
     # app.run(debug=True, host="0.0.0.0", ssl_context='adhoc')
+
     # after running the command
     # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
     app.run(debug=True, host="0.0.0.0", ssl_context=("cert.pem", "key.pem"))

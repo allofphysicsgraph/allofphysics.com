@@ -1,4 +1,5 @@
 # Physics Derivation Graph
+# https://allofphysics.com
 # Ben Payne, 2026
 
 # Creative Commons Attribution 4.0 International License
@@ -18,6 +19,10 @@ else ifeq ($(ARCH), x86_64)
 else
         @echo "Unknown architecture: $(ARCH). Cannot determine if Mac is new (arm64) or old (amd64)."
 endif
+CONTAINER_TAG=latest-$(this_arch)
+
+DOCKER_OR_PODMAN=docker
+#DOCKER_OR_PODMAN=podman
 
 # .PHONY is special target used to declare that a target name does not correspond to an actual file to be built.
 .PHONY: help clean webserver typehints flake8 pylint doctest mccabe
