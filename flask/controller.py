@@ -751,6 +751,7 @@ def set_secure_headers(response):
     """
     # logger.info("[trace]")
     secure_headers.framework.flask(response)
+    # secure_headers.flask(response)
     # logger.debug(str(response))
     return response
 
