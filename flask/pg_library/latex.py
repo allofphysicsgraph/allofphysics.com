@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 # Physics Derivation Graph
-# Ben Payne, 2021
+# Ben Payne, 2026
 # https://creativecommons.org/licenses/by/4.0/
 # Attribution 4.0 International (CC BY 4.0)
 
 """
-The purpose of this file is 
+The purpose of this file is to generate .tex files from expressions
 """
 
 import random
@@ -36,6 +36,12 @@ def make_string_safe_for_latex(unsafe_str: str) -> str:
         unsafe_str: strings that may cause Latex compilation to fail, e.g., "a_string" or "url#subsection"
     Returns:
         safe_str: a string that latex should be able to print, e.g., "a\_string" or "url\#subsection"
+
+    >>> make_string_safe_for_latex("hello world")
+    "hello world"
+
+    >>> make_string_safe_for_latex("hello_world")
+    "hello\_world"
     """
     # some derivation notes have valid underscores, like
     # \cite{yyyy_author}
