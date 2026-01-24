@@ -98,7 +98,7 @@ COPY --chown=appuser:appuser \
      logs_to_stats.py \
      json_schema.py \
      Makefile \
-     pdg_api.py \
+     pdg_pg_api.py \
      schema.sql \
      sql_db.py \
      user.py \
