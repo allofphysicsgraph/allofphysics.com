@@ -1,5 +1,5 @@
 # Physics Derivation Graph
-# Ben Payne, 2021
+# Ben Payne, 2026
 # https://creativecommons.org/licenses/by/4.0/
 # Attribution 4.0 International (CC BY 4.0)
 
@@ -9,6 +9,8 @@
 # https://github.com/phusion/baseimage-docker
 # https://hub.docker.com/r/phusion/baseimage/tags
 FROM phusion/baseimage:jammy-1.0.4
+# Ubuntu is too big
+#FROM ubuntu:latest
 
 # force stdin, stdout and stderr to be totally unbuffered (eg. avoid delayed prints).
 # avoid python printing issues in docker containers.
@@ -32,8 +34,11 @@ RUN apt-get update && \
                graphviz \
 # generate pictures of expressions using latex
                dvipng \
+#               git-core \
 # npm for mathjax
                npm \
+#               automake \
+#               autoreconf \
 # compile .tex to .dvi
                texlive \
     && rm -rf /var/lib/apt/lists/*
@@ -47,16 +52,32 @@ WORKDIR /tmp
 
 # https://www.npmjs.com/package/mathjax
 RUN npm install mathjax@3
+#RUN npm install mathjax
+
+# convert DVI to SVG
+# not necessary, and written in Python2. Conversion to Python3 using 2to3 failed :(
+#RUN git clone https://github.com/WojciechMula/pydvi2svg.git
+#RUN ln -sf /app/pydvi2svg/dvi2svg.py /usr/local/bin/
+#RUN cat pydvi2svg/dvi2png.py | sed 's/#!\/usr\/bin\/python/\/usr\/bin\/python3/' > pydvi2svg/dvi2png.py
+#RUN cat pydvi2svg/conv/binfile.py | sed 's/binfile(file/binfile(filename/' > pydvi2svg/conv/binfile.py
+#RUN git clone https://github.com/fontforge/fontforge.git
+#RUN git clone https://github.com/fontforge/libspiro.git
+#RUN git clone https://github.com/fontforge/libuninameslist.git
+
+# TODO - https://github.com/allofphysicsgraph/proofofconcept/issues/82
+#RUN tlmgr init-usertree
+#RUN apt-get install -y texlive-base
+#RUN apt-get install -y wget xzdec
+#RUN /usr/bin/tlmgr install braket
 
 # https://stackoverflow.com/a/63457606/1164295
 RUN pip3 install --upgrade pip
 
-# without the "--ignore-installed" installation of Flask fails
-RUN pip3 install --no-cache-dir -vvv --ignore-installed  Flask
-RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv
+RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv --ignore-installed blinker
 
 RUN useradd --create-home appuser
 WORKDIR       /home/appuser/app
+
 RUN mkdir -p  /home/appuser/app/uploads
 RUN mkdir -p  /home/appuser/app/tmp
 
@@ -77,25 +98,25 @@ COPY --chown=appuser:appuser \
      logs_to_stats.py \
      json_schema.py \
      Makefile \
-     pdg_pg_api.py \
-     pg_library \
+     pdg_api.py \
      schema.sql \
      sql_db.py \
      user.py \
      validate_dimensions_sympy.py \
      validate_steps_sympy.py \
-     wsgi.py \
+     cert.pem \
+     key.pem \
      /home/appuser/app/
 
 RUN echo "alias python=python3" > /home/appuser/.bashrc
 RUN bash -l /home/appuser/.bashrc
 
 # An ENTRYPOINT allows you to configure a container that will run as an executable.
-#ENTRYPOINT ["python3"]
+ENTRYPOINT ["python3"]
 
 # There can only be one CMD instruction in a Dockerfile
-# The CMD instruction should be used to run the software contained by your image, along with any arguments. 
-#CMD ["/home/appuser/app/controller.py"]
+# The CMD instruction should be used to run the software contained by your image, along with any arguments.
+CMD ["/home/appuser/app/controller.py"]
 
 
 #EOF
