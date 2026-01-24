@@ -24,7 +24,8 @@ up_monitor:
 	       	docker kill $$(docker ps -q); \
 		fi
 	docker ps
-	docker run -it --rm -v `pwd`:/scratch allofphysicscom-flask:latest-$(this_arch) /bin/bash -c 'for filename in /scratch/flask/*.py; do echo $$filename; done | xargs black'
+	docker run -it --rm --entrypoint /bin/bash \
+	    -v `pwd`:/scratch allofphysicscom-flask:latest-$(this_arch) -c 'black /scratch/flask/*.py'
 	docker compose up --build --force-recreate --remove-orphans
 
 # `up` depends on the image `allofphysicscom-flask` being available so that `black` can run
