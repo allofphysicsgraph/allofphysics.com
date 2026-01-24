@@ -8,6 +8,7 @@
 """
 separate the API routes and functions into this file and thus make controller.py smaller
 """
+
 # https://stackoverflow.com/a/16994175/1164295
 from flask import current_app
 
