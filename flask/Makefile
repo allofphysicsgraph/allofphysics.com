@@ -61,12 +61,14 @@ endif
 docker_build:
 	docker build -t allofphysicscom-flask:latest-$(this_arch) .
 
+# relies on `CMD` to launch Flask web server 
 docker: docker_build
 	docker run -it --rm -v`pwd`/data.json:/home/appuser/app/data.json \
            -v`pwd`/logs/:/home/appuser/app/logs/ \
            -v`pwd`/users_sqlite.db:/home/appuser/app/users_sqlite.db \
            --env-file .env --publish 5000:5000 allofphysicscom-flask:latest-$(this_arch)
 
+# overrides the default startup command in the Docker container; Flask would need to be launched manually inside the container
 dockerlive: docker_build
 	docker run -it --rm -v`pwd`:/scratch \
            -v`pwd`/data.json:/home/appuser/app/data.json \
