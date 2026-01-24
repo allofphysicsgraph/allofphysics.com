@@ -1,3 +1,4 @@
+flask/*.pem
 flask/docs/logs
 certs
 .env
