@@ -16,6 +16,12 @@ else
         @echo "Unknown architecture: $(ARCH). Cannot determine if Mac is new (arm64) or old (amd64)."
 endif
 
+
+CONTAINER_TAG=latest-$(this_arch)
+
+DOCKER_OR_PODMAN=docker
+#DOCKER_OR_PODMAN=podman
+
 # todo: docker kill $(docker ps -q); make up
 
 up_monitor:
@@ -43,7 +49,8 @@ up:
 
 
 down:
-	docker compose down --volumes --remove-orphans
+	# https://docs.docker.com/compose/reference/down/
+	$(DOCKER_OR_PODMAN) compose down --volumes --remove-orphans
 
 
 kill:
