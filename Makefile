@@ -1,6 +1,7 @@
-# Ben Payne
+
 # Physics Derivation Graph
 # https://allofphysics.com
+# Ben Payne, 2026
 
 # Get the machine architecture.
 # On arm64 (Apple Silicon M1/M2/etc.), `uname -m` outputs "arm64".
