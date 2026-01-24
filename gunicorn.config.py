@@ -19,8 +19,8 @@ reload = False
 #--bind 0.0.0.0:5000
 bind='0.0.0.0:5000'
 
-# Front-end’s IPs from which allowed to handle set secure headers. (comma separate).
-# Set to * to disable checking of Front-end IPs (useful for setups where you don’t know in advance the IP address of Front-end, but you still trust the environment).
+# Front-end's IPs from which allowed to handle set secure headers. (comma separate).
+# Set to * to disable checking of Front-end IPs (useful for setups where you don't know in advance the IP address of Front-end, but you still trust the environment).
 #--forwarded-allow-ips="*"
 forwarded_allow_ips="*"
 
