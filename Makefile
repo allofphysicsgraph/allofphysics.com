@@ -27,6 +27,7 @@ up_monitor:
 	docker run -it --rm -v `pwd`:/scratch allofphysicscom-flask /bin/bash -c 'for filename in /scratch/flask/*.py; do echo $$filename; done | xargs black'
 	docker compose up --build --force-recreate --remove-orphans
 
+# `up` depends on the image `allofphysicscom-flask` being available so that `black` can run
 up:
 	if (! docker stats --no-stream ); then  open /Applications/Docker.app; while (! docker stats --no-stream ); do    echo "Waiting for Docker to launch...";  sleep 1; done; fi;
 	docker ps
@@ -46,8 +47,8 @@ kill:
 	docker ps
 	docker kill $$(docker ps -q)
 
-docker_push:
-	docker buildx build --push --platform linux/arm64,linux/amd64 --tag benislocated/allofphysicscom-flask:latest .
+#docker_push:
+#	docker buildx build --push --platform linux/arm64,linux/amd64 --tag benislocated/allofphysicscom-flask:latest .
 
 
 # This will remove:
