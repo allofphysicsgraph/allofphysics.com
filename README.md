@@ -98,3 +98,17 @@ Server: Docker Engine - Community
 # Licensing
 
 Unless otherwise noted, all source code is covered by the [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/)
+
+
+# Software Requirements
+
+* Docker
+* a web browser
+
+# Contributing
+
+Before submitting code via a pull request, please open an issue (feature or bug) and describe your question or intent.
+
+Python code is formatted using Black.
+
+
