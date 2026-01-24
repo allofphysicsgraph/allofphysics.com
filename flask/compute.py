@@ -61,7 +61,6 @@ from typing_extensions import (
 # https://www.python.org/dev/peps/pep-0589/
 import pandas  # type: ignore
 
-
 logger = logging.getLogger(__name__)
 
 # global proc_timeout
