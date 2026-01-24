@@ -1,5 +1,5 @@
 # Physics Derivation Graph
-# Ben Payne, 2021
+# Ben Payne, 2026
 # https://creativecommons.org/licenses/by/4.0/
 # Attribution 4.0 International (CC BY 4.0)
 
@@ -16,6 +16,8 @@ ENV PYTHONUNBUFFERED=1
 
 # PYTHONDONTWRITEBYTECODE: Prevents Python from writing pyc files to disk (equivalent to python -B option)
 ENV PYTHONDONTWRITEBYTECODE=1
+
+################# end variables; start apt packages #################################
 
 # https://docs.docker.com/engine/reference/builder/#run
 RUN apt-get update && \
@@ -48,15 +50,23 @@ WORKDIR /tmp
 # https://www.npmjs.com/package/mathjax
 RUN npm install mathjax@3
 
+
+# TODO - https://github.com/allofphysicsgraph/proofofconcept/issues/82
+#RUN tlmgr init-usertree
+#RUN apt-get install -y texlive-base
+#RUN apt-get install -y wget xzdec
+#RUN /usr/bin/tlmgr install braket
+
 # https://stackoverflow.com/a/63457606/1164295
 RUN pip3 install --upgrade pip
 
 # without the "--ignore-installed" installation of Flask fails
 RUN pip3 install --no-cache-dir -vvv --ignore-installed  Flask
-RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv
+RUN pip3 install -r /tmp/requirements.txt --no-cache-dir -vvv --ignore-installed blinker
 
 RUN useradd --create-home appuser
 WORKDIR       /home/appuser/app
+
 RUN mkdir -p  /home/appuser/app/uploads
 RUN mkdir -p  /home/appuser/app/tmp
 

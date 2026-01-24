@@ -9,8 +9,6 @@
 # https://github.com/phusion/baseimage-docker
 # https://hub.docker.com/r/phusion/baseimage/tags
 FROM phusion/baseimage:jammy-1.0.4
-# Ubuntu is too big
-#FROM ubuntu:latest
 
 # force stdin, stdout and stderr to be totally unbuffered (eg. avoid delayed prints).
 # avoid python printing issues in docker containers.
@@ -36,11 +34,8 @@ RUN apt-get update && \
                graphviz \
 # generate pictures of expressions using latex
                dvipng \
-#               git-core \
 # npm for mathjax
                npm \
-#               automake \
-#               autoreconf \
 # compile .tex to .dvi
                texlive \
     && rm -rf /var/lib/apt/lists/*
@@ -54,17 +49,7 @@ WORKDIR /tmp
 
 # https://www.npmjs.com/package/mathjax
 RUN npm install mathjax@3
-#RUN npm install mathjax
 
-# convert DVI to SVG
-# not necessary, and written in Python2. Conversion to Python3 using 2to3 failed :(
-#RUN git clone https://github.com/WojciechMula/pydvi2svg.git
-#RUN ln -sf /app/pydvi2svg/dvi2svg.py /usr/local/bin/
-#RUN cat pydvi2svg/dvi2png.py | sed 's/#!\/usr\/bin\/python/\/usr\/bin\/python3/' > pydvi2svg/dvi2png.py
-#RUN cat pydvi2svg/conv/binfile.py | sed 's/binfile(file/binfile(filename/' > pydvi2svg/conv/binfile.py
-#RUN git clone https://github.com/fontforge/fontforge.git
-#RUN git clone https://github.com/fontforge/libspiro.git
-#RUN git clone https://github.com/fontforge/libuninameslist.git
 
 # TODO - https://github.com/allofphysicsgraph/proofofconcept/issues/82
 #RUN tlmgr init-usertree
