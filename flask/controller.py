@@ -1266,7 +1266,7 @@ def static_dir():
     trace_id = str(random.randint(1000000, 9999999))
     logger.info("[trace page start " + trace_id + "]")
     # https://stackoverflow.com/a/3207973/1164295
-    (_, _, filenames) = next(os.walk("static"))
+    _, _, filenames = next(os.walk("static"))
     filenames.sort()
     logger.info("[trace page end " + trace_id + "]")
     return render_template(
@@ -1287,7 +1287,7 @@ def tmp_dir():
     trace_id = str(random.randint(1000000, 9999999))
     logger.info("[trace page start " + trace_id + "]")
     # https://stackoverflow.com/a/3207973/1164295
-    (_, _, filenames) = next(os.walk("tmp"))
+    _, _, filenames = next(os.walk("tmp"))
     filenames.sort()
     logger.info("[trace page end " + trace_id + "]")
     return render_template(
