@@ -10,20 +10,19 @@
 The purpose of this file is to transform log files on the webserver (e.g., DigitalOcean or localhost)
 into records that can be used to inform visualizations presented to the user.
 
-Reinventing Prometheus/Graphana for specific log files and specific views.
+Reinventing Prometheus/Graphana for specific log files and specific views. 
 """
 
 # the order of installation matters for these two :(
-# get_ipython().system('pip install python-geoip-geolite2')
-# get_ipython().system('pip install python-geoip-python3')
+#get_ipython().system('pip install python-geoip-geolite2')
+#get_ipython().system('pip install python-geoip-python3')
 
 import shutil  # move and copy files
 import datetime
-import pandas  # type: ignore
-import re  # https://docs.python.org/3/library/re.html
+import pandas # type: ignore
+import re # https://docs.python.org/3/library/re.html
 import time
-import matplotlib.pyplot as plt  # type: ignore
-
+import matplotlib.pyplot as plt # type: ignore
 # https://pythonhosted.org/python-geoip/
 from geoip import geolite2  # type: ignore
 import os
