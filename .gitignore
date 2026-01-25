@@ -1,6 +1,6 @@
 flask/*.pem
 flask/docs/logs
-certs
+certs/*.pem
 .env
 dumping_grounds
 flask/users_sqlite.db
