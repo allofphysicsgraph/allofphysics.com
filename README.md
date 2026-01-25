@@ -1,12 +1,12 @@
 
-This repo is the source code for the website <https://allofphysics.com>, aka <https://derivationmap.net/>.
+This repo was the source code for the website <https://allofphysics.com>, aka <https://derivationmap.net/>.
 
 See [developer documentation](https://derivationmap.net/developer_documentation?referrer=github_README) after reading the [user documentation](https://derivationmap.net/user_documentation)
 
 # How to use (for the impatient)
 
 ```bash
-git clone https://github.com/allofphysicsgraph/allofphysics.com.git
+git clone https://github.com/allofphysicsgraph/combined_v7_JSON_and_v8_neo4j.git
 cd allofphysics.com
 make up
 ```
