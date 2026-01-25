@@ -122,7 +122,9 @@ services:
     # https://docs.docker.com/reference/compose-file/services/#depends_on
     depends_on: 
       flask:
+# https://docs.docker.com/compose/compose-file/05-services/#healthcheck
         condition: service_started
+#        condition: service_healthy
     restart: on-failure
     ports:
      - "80:80"
