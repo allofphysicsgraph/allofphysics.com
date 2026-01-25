@@ -295,7 +295,7 @@ if True:
         # the logger will handle only INFO, WARNING, ERROR, and CRITICAL messages
         # and will ignore DEBUG messages
         level=logging.DEBUG,
-        format="%(asctime)s|%(filename)-13s|%(levelname)-5s|%(lineno)-4d|%(funcName)-20s|%(message)s"  # ,
+        format="%(asctime)s|%(filename)-13s|%(levelname)-5s|%(lineno)-4d|%(funcName)-20s|%(message)s",  # ,
         # https://stackoverflow.com/questions/6290739/python-logging-use-milliseconds-in-time-format/7517430#7517430
         # datefmt="%m/%d/%Y %I:%M:%S %f %p", # https://strftime.org/
     )
@@ -751,7 +751,7 @@ def set_secure_headers(response):
     """
     # logger.info("[trace]")
     secure_headers.framework.flask(response)
-    #secure_headers.flask(response)
+    # secure_headers.flask(response)
     # logger.debug(str(response))
     return response
 
@@ -1267,7 +1267,7 @@ def static_dir():
     trace_id = str(random.randint(1000000, 9999999))
     logger.info("[trace page start " + trace_id + "]")
     # https://stackoverflow.com/a/3207973/1164295
-    (_, _, filenames) = next(os.walk("static"))
+    _, _, filenames = next(os.walk("static"))
     filenames.sort()
     logger.info("[trace page end " + trace_id + "]")
     return render_template(
@@ -1288,7 +1288,7 @@ def tmp_dir():
     trace_id = str(random.randint(1000000, 9999999))
     logger.info("[trace page start " + trace_id + "]")
     # https://stackoverflow.com/a/3207973/1164295
-    (_, _, filenames) = next(os.walk("tmp"))
+    _, _, filenames = next(os.walk("tmp"))
     filenames.sort()
     logger.info("[trace page end " + trace_id + "]")
     return render_template(
