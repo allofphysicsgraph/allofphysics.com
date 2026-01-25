@@ -19,6 +19,9 @@ else ifeq ($(ARCH), x86_64)
 else
         @echo "Unknown architecture: $(ARCH). Cannot determine if Mac is new (arm64) or old (amd64)."
 endif
+
+WEBSERVER_IMAGE=allofphysicscom-flask
+
 CONTAINER_TAG=latest-$(this_arch)
 
 DOCKER_OR_PODMAN=docker
@@ -63,24 +66,27 @@ else
 	@echo 'FILE_NAME is undefined'
 endif
 
-docker_build:
-	docker build -t allofphysicscom-flask:latest-$(this_arch) .
+container_build:
+	$(DOCKER_OR_PODMAN) build -t $(WEBSERVER_IMAGE):$(CONTAINER_TAG) .
 
 # relies on `CMD` to launch Flask web server 
-docker: docker_build
-	docker run -it --rm -v`pwd`/data.json:/home/appuser/app/data.json \
+container: docker_build
+	$(DOCKER_OR_PODMAN) run -it --rm -v`pwd`/data.json:/home/appuser/app/data.json \
            -v`pwd`/logs/:/home/appuser/app/logs/ \
            -v`pwd`/users_sqlite.db:/home/appuser/app/users_sqlite.db \
-           --env-file .env --publish 5000:5000 allofphysicscom-flask:latest-$(this_arch)
+           --env-file .env \
+  	   --publish 5000:5000 $(WEBSERVER_IMAGE):$(CONTAINER_TAG)
 
 # overrides the default startup command in the Docker container; Flask would need to be launched manually inside the container
-dockerlive: docker_build
-	docker run -it --rm -v`pwd`:/scratch \
+containerlive: docker_build
+	$(DOCKER_OR_PODMAN) run -it --rm \
+	   -v`pwd`:/scratch \
            -v`pwd`/data.json:/home/appuser/app/data.json \
            -v`pwd`/logs/:/home/appuser/app/logs/ \
            -v`pwd`/users_sqlite.db:/home/appuser/app/users_sqlite.db \
-           --env-file .env --entrypoint='' \
-           --publish 5000:5000 allofphysicscom-flask:latest-$(this_arch) /bin/bash
+           --env-file .env \
+ 	   --entrypoint='' \
+           --publish 5000:5000 $(WEBSERVER_IMAGE):$(CONTAINER_TAG) /bin/bash
 
 neo4j:
 	docker run --publish=7474:7474 --publish=7687:7687 --publish=7473:7473 \
@@ -89,6 +95,9 @@ neo4j:
            --volume=$$HOME/neo4j/conf:/conf \
            --volume=$$HOME/neo4j/tmp:/tmp \
            --env NEO4J_AUTH=none neo4j:4.0
+
+
+# the following are for use inside the container
 
 flask:
 	python3 controller.py
